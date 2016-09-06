@@ -1,0 +1,17 @@
+*.pyc
+*.idea/
+local_settings.py
+Procfile.txt
+Procfile*.txt
+nbproject
+*.txt~
+*.css~
+*.sql
+*.py~
+.gitignore~
+*.html~
+media/
+students/fixtures/
+students/tests.py
+Procfile~.txt
+password.txt
