@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -63,6 +64,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'studentsdb.context_processors.students_proc',
+                
             ],
         },
     },
@@ -120,3 +123,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+PORTAL_URL = 'http://localhost:8000'

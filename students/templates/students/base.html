@@ -1,0 +1,82 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+	<meta charset="UTF-8">
+	<title>Сервіс Обліку Студентів -{% block meta_title %}{% endblock meta_title %}</title>
+	<meta name="description" value="Система Обліку Студентів Навчального Закладу"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ PORTAL_URL }}{% static "css/main.css" %}">
+
+	{% block extra_css %}{% endblock extra_css %}
+</head>
+<body>
+	<!-- Start Container -->
+	<div class="container">
+		
+		<!-- Start Header -->
+		<div class="row" id="header">
+			
+			<div class="col-xs-8">
+				<h1>Сервіс Обліку Студентів</h1>
+			</div>
+
+			<!-- Group Selector-->
+			<div class="col-xs-4" id="group-selector">
+				<strong>Група:</strong>
+				<select>
+					<option value="">Усі Студенти</option>
+					<option value="">ІМЗ-13, Колодій Тарас</option>
+					<option value="">ІМЗ-23, Кузь Ігор</option>
+					<option value="">ІМЗ-33, Зварич Марко</option>
+				</select>
+			</div>
+		</div>	
+		<!-- End Header-->
+
+		<!-- Start SubHeader-->
+		<div class="row" id="sub-geader">
+			<div class="col-xs-12">
+				<ul class="nav nav-tabs" role="tablist">
+					
+					<li role="presentation" {% if request.path == '/' %} class="active"{% endif %}><a href="{% url "home" %}">Студенти</a></li>
+					
+					<li role="presentation" {% if '/journal' in request.path %} class="active"{% endif %}><a href="/journal">Відвідування</a></li>
+					
+					<li role="presentation" {% if '/groups' in request.path %} class="active"{% endif %}><a href="{% url "groups" %}">Групи</a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- End SubHeader-->
+
+		<!-- Start Content Columns -->
+		<div class="row" id="content-columns">
+			<div class="col-xs-12" id="content-column">
+				{% comment "Not used alert so far" %}
+				<div class="alert alert-warning" role="alert">Status Update!</div>
+				{% endcomment %}
+				<h2>{% block title %}{% endblock title %}</h2>
+				{% block content %}{% endblock content %}
+			</div>
+		</div>		
+		<!-- End Content Columns -->
+		
+		<!-- Start Footer -->
+		<div class="row" id="footer">
+			<div class="col-xs-12">
+				&copy; 2016 Сервіс Обліку Студентів
+			</div>
+		</div>
+		<!-- End Footer -->
+	
+	<!-- End Container-->
+ </div>
+	<!-- Javascripts Section -->	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	{% block extra_js %}{% endblock extra_js %}
+</body>
+</html>
