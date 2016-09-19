@@ -15,7 +15,3 @@ students/fixtures/
 students/tests.py
 Procfile~.txt
 password.txt
-*∼,
-*.egg-info
-*.mo
-*.egg
