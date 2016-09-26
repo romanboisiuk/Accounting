@@ -26,7 +26,7 @@ class Student(models.Model):
 		verbose_name = u"По-батькові",
 		default = '') 
 
-	birthday = models.DateTimeField(
+	birthday = models.DateField(
 		blank = False,
 		verbose_name = u"Дата народження",
 		null = True)
