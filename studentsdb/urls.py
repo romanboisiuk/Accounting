@@ -4,7 +4,7 @@ from students.views import students
 from students.views import groups
 from students.views import journal
 
-urlpatterns = [
+urlpatterns = [ 
 	# Students urls
     url(r'^$', students.students_list, name='home'),
     url(r'^students/add/$', students.students_add, name='students_add'),
