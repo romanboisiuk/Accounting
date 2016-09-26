@@ -24,7 +24,7 @@ class Student(models.Model):
 		max_length = 256,
 		blank = True,
 		verbose_name = u"По-батькові",
-		default = '')
+		default = '') 
 
 	birthday = models.DateTimeField(
 		blank = False,
