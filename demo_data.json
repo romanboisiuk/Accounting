@@ -1,5 +1,4 @@
-[
-{
+[{
     "model": "contenttypes.contenttype",
     "pk": 1,
     "fields": {
