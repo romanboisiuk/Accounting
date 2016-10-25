@@ -1,7 +1,9 @@
 from django.conf.urls import  url
 from django.contrib import admin
-from views import students, groups, journal
-
+from views import  journal 
+from views import  groups
+from views import  contact_admin
+from views import  students
 
 urlpatterns = [ 
 	# Students urls
@@ -18,5 +20,8 @@ urlpatterns = [
     
     # Journal  urls
   	url(r'^journal/$', journal.journal, name='journal'),
+
+     # Contact Admin Form
+    url(r'^contact-admin/$', contact_admin.contact_admin, name='contact_admin'),
 ]
 
