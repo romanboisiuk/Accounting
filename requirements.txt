@@ -1,3 +1,4 @@
 Django==1.10.1
 Pillow==3.4.1
 MySQL-python==5.7.15
+django-crispy-forms==1.6.1
