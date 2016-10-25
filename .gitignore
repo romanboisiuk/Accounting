@@ -19,3 +19,4 @@ password.txt
 *.egg-info
 *.mo
 *.egg
+db.py
