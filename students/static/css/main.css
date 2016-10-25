@@ -25,3 +25,9 @@ font-weight: bold;
 .new1{
 	margin-left:50px; 
 }
+/* Form Styles */
+textarea,
+select,
+input {
+max-width: 300px;
+}
