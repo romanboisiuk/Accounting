@@ -6,14 +6,11 @@ from django.views.static import serve
 urlpatterns = [
     url(r'^', include('students.urls')),
     url(r'^admin/', admin.site.urls),
-
-    
 ]
-
-
 
 if settings.DEBUG:
     # serve files from media folder
     urlpatterns += [
-        url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
+        url(r'^media/(?P<path>.*)$', serve, 
+        	{'document_root': settings.MEDIA_ROOT,}),
 ]        
