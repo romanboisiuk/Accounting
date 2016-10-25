@@ -1,8 +1,11 @@
+from django.conf import global_settings
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+PORTAL_URL = 'http://localhost:8000'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -15,6 +18,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ADMIN_EMAIL = 'noisia91@gmail.com'
+EMAIL_HOST = 'smtp-pulse.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'noisia91@gmail.com'
+EMAIL_HOST_PASSWORD = 'romkodnb'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
 
 
 # Application definition
@@ -26,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'students',
 ]
 
@@ -40,6 +51,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'studentsdb.urls'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 TEMPLATES = [
     {
@@ -66,18 +79,7 @@ WSGI_APPLICATION = 'studentsdb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': '123',
-        'NAME': 'students_db',
-      
-
-    }
-}
-
+from db import DATABASES
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -103,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'uk'
 
-TIME_ZONE = 'Europe/Kiev'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -114,15 +116,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+
 
 STATIC_URL = '/static/'
-
-STATIC_ROOT = 'staticfiles'
-
-PORTAL_URL = 'http://localhost:8000'
 
 MEDIA_URL = '/media/' 
 
