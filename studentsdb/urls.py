@@ -6,6 +6,8 @@ from django.views.static import serve
 urlpatterns = [
     url(r'^', include('students.urls')),
     url(r'^admin/', admin.site.urls),
+
+    
 ]
 
 
