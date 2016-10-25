@@ -5,7 +5,9 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 from django.contrib import messages
-from ..models import Student, Group
+from ..models.students import Student
+from ..models.groups import Group
+
  
 def students_list(request):
 	students = Student.objects.all()
