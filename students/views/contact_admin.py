@@ -4,8 +4,6 @@ from django import forms
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.conf import settings
-
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -34,12 +32,33 @@ class ContactForm(forms.Form):
 	from_email = forms.EmailField(
 		label=(u'Ваша Емейл Адреса'))
 	subject = forms.CharField(
-		label=(u'Заголовок листа'))
+		label=(u'Заголовок листа'),
+		max_length=128)
 	message = forms.CharField(
 		label=(u'Текст повідомлення'),
 		max_length=2560,
 		widget=forms.Textarea)
+'''
+class ContactView(FormView):
+	template_name = 'contact_admin/form.html'
+	form_class = ContactForm
+	success_url = '/contact_admin/'
 
+	def form_valid(self, form):
+		subject = form.cleaned_data['subject']
+		message = form.cleaned_data['message']
+		from_email = form.cleaned_data['from_email']
+
+		try:
+			send_mail(subject, message, from_email, [ADMIN_EMAIL])
+		except Exception:	
+			messages.error(self.request, u'Під час відправки листа виникла\
+			непередбачувана помилка.\
+			Спробуйте скористатись даною формою пізніше.')
+		else:
+			messages.success(self.request, u'Повідомлення успішно відправлене')	
+		return super(ContactView, self).form_valid(form)
+'''
 def contact_admin(request):
 	# check if form was posted
 	if request.method == 'POST':
@@ -56,7 +75,8 @@ def contact_admin(request):
 			try:
 				send_mail(subject, message, from_email, [ADMIN_EMAIL])
 			except Exception:
-				message = u'Під час відправки листа виникла непередбачувана помилка.Спробуйте скористатись даною формою пізніше'
+				message = u'Під час відправки листа виникла \
+				непередбачувана помилка.Спробуйте скористатись даною формою пізніше'
 
 			else:
 				message = u'Повідомлення успішно надіслане!'
