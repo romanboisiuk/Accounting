@@ -3,10 +3,18 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from datetime import datetime
-from django.contrib import messages
+
 from ..models.students import Student
 from ..models.groups import Group
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+from crispy_forms.bootstrap import FormActions
+
+from django.forms import ModelForm
+from django.views.generic.edit import UpdateView, DeleteView, CreateView
 
  
 def students_list(request):
@@ -20,7 +28,7 @@ def students_list(request):
 			students = students.reverse()
 
 	# paginate students
-	paginator = Paginator(students, 5)		
+	paginator = Paginator(students, 3)		
 	page = request.GET.get('page')
 	try:
 		students = paginator.page(page)
@@ -32,6 +40,77 @@ def students_list(request):
 		students = paginator.page(paginator.num_pages)	
 			
 	return render(request, 'students/students_list.html', {'students': students})
+
+class StudentForm(ModelForm):
+	class Meta:
+		model = Student
+		fields = '__all__'
+
+	def __init__(self, *args, **kwargs)	:
+		super(StudentForm, self).__init__(*args, **kwargs)
+
+		self.helper = FormHelper(self)
+
+		#add form or edit form
+		if kwargs['instance'] is None:
+			add_form = True
+		else:
+			add_form = False
+
+		# set form tag attributes
+		if add_form:
+			self.helper.form_action = reverse('students_add')
+		else:
+			self.helper.form_action = reverse('students_edit',
+				kwargs={'pk': kwargs['instance'].id})
+		self.helper.form_method = 'POST'
+		self.helper.form_class = 'form-horizontal'
+
+		# set form field properties
+		self.helper.help_text_inline = True
+		self.helper.label_class = 'col-sm-2 control-label'
+		self.helper.field_class = 'col-sm-10'
+
+		# add buttons
+		if add_form:
+			submit = Submit('add_button', u'Додати',
+			 	css_class="btn btn-primary")
+		else:
+			submit = Submit('save_button', u'Зберегти',
+				css_class="btn btn-primary")
+		self.helper.layout[-1] = FormActions(
+			submit, 
+			Submit('cancel_button', u'Скасувати', 
+				css_class="btn btn-link"),
+			)	
+
+class BaseStudentFormView(object):
+
+	def get_success_url(self):
+		return u'%s?status_message=Зміни успішно збережено!' % reverse('home')
+	
+	def post(self, request, *args, **kwargs):
+		# handle cancel button
+		if request.POST.get('cancel_button'):
+			return HttpResponseRedirect(reverse('home') + 
+				u'?status_message=Зміни скасовано.')
+		else:
+			return super(BaseStudentFormView, self).post(request, *args, **kwargs)	
+
+class StudentAddView(BaseStudentFormView, CreateView):
+		model = Student
+		form_class = StudentForm
+		template_name = 'students/students_form.html'
+
+class StudentUpdateView(BaseStudentFormView, UpdateView):
+		model = Student
+		form_class = StudentForm
+		template_name = 'students/students_form.html'
+
+class StudentDeleteView(BaseStudentFormView, DeleteView):
+		model = Student
+		template_name = 'students/students_confirm_delete.html'     
+
 
 def students_add(request):
 	# was form posted?
@@ -53,11 +132,10 @@ def students_add(request):
 				  data['first_name'] = first_name	
 
 				last_name = request.POST.get('last_name', '').strip()
-				if not first_name:
+				if not last_name:
 					errors['last_name'] = u"Прізвище є обов'язковим"
 				else:
 				  data['last_name'] = last_name	  
-
 
 				birthday = request.POST.get('birthday', '').strip()
 				if not birthday:
@@ -109,14 +187,8 @@ def students_add(request):
 				return HttpResponseRedirect(
 					u'%s?status_message=Додавання студента скасовано!' % reverse('home'))
 
-
 		else:
 				# initial form render
 				return render(request, 'students/students_add.html', 
 					{'groups': Group.objects.all().order_by('title')})
 
-def students_edit(request, sid):
-	return HttpResponse('<h1>Edit Student %s </h1>' % sid)
-
-def students_delete(request, sid):
-	return HttpResponse('<h1>Delete Student %s </h1>' % sid)
