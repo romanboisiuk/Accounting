@@ -84,32 +84,48 @@ class StudentForm(ModelForm):
 				css_class="btn btn-link"),
 			)	
 
-class BaseStudentFormView(object):
-
-	def get_success_url(self):
-		return u'%s?status_message=Зміни успішно збережено!' % reverse('home')
-	
-	def post(self, request, *args, **kwargs):
-		# handle cancel button
-		if request.POST.get('cancel_button'):
-			return HttpResponseRedirect(reverse('home') + 
-				u'?status_message=Зміни скасовано.')
-		else:
-			return super(BaseStudentFormView, self).post(request, *args, **kwargs)	
-
-class StudentAddView(BaseStudentFormView, CreateView):
+class StudentAddView(CreateView):
 		model = Student
 		form_class = StudentForm
 		template_name = 'students/students_form.html'
 
-class StudentUpdateView(BaseStudentFormView, UpdateView):
+		def get_success_url(self):
+			first_name = self.request.POST.get(u'first_name')
+			last_name = self.request.POST.get(u'last_name')
+			return u'%s?status_message=Студент %s %s успішно доданий' % (reverse('home'),
+						self.request.POST.get('first_name'),
+						self.request.POST.get('last_name'))
+
+		def post(self, request, *args, **kwargs):
+			# handle cancel button
+			if request.POST.get('cancel_button'):
+				return HttpResponseRedirect(reverse('home') + 
+					u'?status_message=Додавання студента відмінено.')
+			else:
+				return super(StudentAddView, self).post(request, *args, **kwargs)	
+
+class StudentUpdateView(UpdateView):
 		model = Student
 		form_class = StudentForm
 		template_name = 'students/students_form.html'
 
-class StudentDeleteView(BaseStudentFormView, DeleteView):
+		def get_success_url(self):
+			return u'%s?status_message=Студента успішно збережено!' % reverse('home')
+
+		def post(self, request, *args, **kwargs):
+			# handle cancel button
+			if request.POST.get('cancel_button'):
+				return HttpResponseRedirect(reverse('home') + 
+					u'?status_message=Редагування студента відмінено.')
+			else:
+				return super(StudentUpdateView, self).post(request, *args, **kwargs)
+
+class StudentDeleteView(DeleteView):
 		model = Student
 		template_name = 'students/students_confirm_delete.html'     
+
+		def get_success_url(self):
+			return u'%s?status_message=Студента успішно видалено!' % reverse('home')
 
 
 def students_add(request):
