@@ -3,6 +3,7 @@ from django.contrib import admin
 from views import journal, groups, contact_admin, students
 from views.students import StudentUpdateView, StudentDeleteView, StudentAddView
 from views.groups import GroupDeleteView, GroupUpdateView, GroupAddView
+from views.journal import JournalView
 
 urlpatterns = [ 
 	# Students urls
@@ -18,7 +19,7 @@ urlpatterns = [
     url(r'^groups/(?P<pk>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
     
     # Journal  urls
-  	url(r'^journal/$', journal.journal, name='journal'),
+  	url(r'^journal/(?P<pk>\d+)?/?$', JournalView.as_view(), name='journal'),
 
      # Contact Admin Form
     url(r'^contact_admin/$', contact_admin.contact_admin, name='contact_admin'),
