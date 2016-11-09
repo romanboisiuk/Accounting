@@ -7,7 +7,9 @@
 	<title>Сервіс Обліку Студентів -{% block meta_title %}{% endblock meta_title %}</title>
 	<meta name="description" value="Система Обліку Студентів Навчального Закладу"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="{{ PORTAL_URL }}{% static "css/main.css" %}">
 
 	{% block extra_css %}{% endblock extra_css %}
@@ -28,9 +30,10 @@
 				<strong>Група:</strong>
 				<select>
 					<option value="">Усі Студенти</option>
-					<option value="">ІМЗ-13, Колодій Тарас</option>
-					<option value="">ІМЗ-23, Кузь Ігор</option>
-					<option value="">ІМЗ-33, Зварич Марко</option>
+					{% for group in GROUPS %}
+					<option value="{{ group.id }}"{% if group.selected %} selected="1"{% endif %}>
+					{{ group.title }}{% if group.leader %}, {{ group.leader }}{% endif %}</option>
+					{% endfor %}
 				</select>
 			</div>
 		</div>	
@@ -61,13 +64,20 @@
 		<div class="row" id="content-columns">
 			<div class="col-xs-12" id="content-column">
 				
+				<!-- Section message -->
 				{% block status_message %}
 				{% if request.GET.status_message %}
 				<div class="alert alert-warning" role="alert">{{ request.GET.status_message }}</div>
 				{% endif %}
 				{% endblock %}
-				<h2>{% block title %}{% endblock title %}</h2>
+				<!-- End section message -->
+				
+				<div class="col-xs-10">
+				<h2>{% block title %}{% endblock title %}</h2><span id="ajax-loader"></span>
+				</div>
+				<div class="col-xs-12">
 				{% block content %}{% endblock content %}
+				</div>
 			</div>
 		</div>		
 		<!-- End Content Columns -->
@@ -81,11 +91,35 @@
 		<!-- End Footer -->
 	
 	<!-- End Container-->
- </div>
+	</div>
+
+	<!-- Modal Boilerplate -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel"><!-- --></h4>
+			</div>
+			<div class="modal-body"><!-- --></div>
+			<div class="modal-footer"><!-- --></div>
+		</div>
+	</div>
+</div>		 							
+
 	<!-- Javascripts Section -->	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+	
+	<script src="{% static "js/main.js" %}"></script>
 	{% block extra_js %}{% endblock extra_js %}
 </body>
 </html>
