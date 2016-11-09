@@ -22,12 +22,22 @@ font-weight: bold;
 	line-height: 30px;
 	color: #555555;
 }
-.new1{
-	margin-left:50px; 
-}
 /* Form Styles */
 textarea,
 select,
 input {
 max-width: 300px;
+}
+/* Journal Table Styles */
+td.day-box,
+th.day-header {
+	padding: 3px !important;
+	vertical-align: middle !important;
+	text-align: center;
+}
+#ajax-progress-indicator {
+	display: none;
+}
+#ajax-loader {
+    display:none;
 }
