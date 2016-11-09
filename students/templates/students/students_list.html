@@ -8,14 +8,14 @@
 
 {% block content %}
 
-<a class="btn btn-primary" href="{% url 'students_add' %}">Додати Студента</a>
+<a class="btn btn-primary" id="add_student" href="{% url "students_add" %}">Додати Студента</a>
 
 <!-- Start Students Listing-->
 <table class="table">
 	{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 	<thead>
 		<tr>
-			<th>#</th>
+			<th>№</th>
 			<th>Фото</th>
 			<th>
 				<a href="{% url "home" %}?order_by=last_name{% if order_by == 'last_name' and reverse != '1' and request.path == '/' %}&amp;reverse=1{% endif %}">
@@ -49,23 +49,32 @@
 	<tbody>
 	{% for student in students %}
 	<tr>
-		<td>{{ forloop.counter }}</td>
+		<td>
+			{% if is_paginated %}
+				{{ page_obj.start_index|add:forloop.counter0 }}
+			{% else %}	
+				{{ forloop.counter }}
+			{% endif %}	
+		</td>
 		<td>
 			{% if student.photo %}
 			<img class="img-circle" height="30" width="30" src="{{ student.photo.url }}" alt="1">
 			{% else %}
 			<img class="img-circle" src="{% static "img/default_user.png" %}" height="30" width="30">
 			{% endif %}</td>
-			<td><a  href="{% url 'students_edit' student.id %}">{{ student.last_name }}</a></td>
-			<td><a  href="{% url 'students_edit' student.id %}">{{ student.first_name }}</a></td>
+			<td><a  href="{% url 'students_edit' student.id %}" 
+			class="student-edit-form-link">{{ student.last_name }}</a></td>
+			<td><a  href="{% url 'students_edit' student.id %}" 
+			class="student-edit-form-link">{{ student.first_name }}</a></td>
 			<td>{{student.ticket}}</td>
 			<td>
 				<div class="btn-group">
 					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія
 					<span class="caret"></span></button>
 					<ul class="dropdown-menu" role="menu">
-            <li><a href="{% url "students_edit" student.id %}">Редагувати</a></li>
-            <li><a href="/journal/{{ student.id }}">Відвідування</a></li>
+            <li><a href="{% url "students_edit" student.id %}"
+            class="student-edit-form-link">Редагувати</a></li>
+            <li><a href="{% url "journal" student.id %}">Відвідування</a></li>
             <li><a href="{% url "students_delete" student.id %}">Видалити</a></li>
           </ul>
 				</div>
@@ -75,23 +84,9 @@
 	</tbody>
 </table>
 	<!-- End Students Listing -->
-	{% if students.has_other_pages %}
-	{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
-	<nav>
-		<ul class="pagination">
-			<li>
-			<a href="{% url 'home' %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&laquo;</a>
-			</li>
-			{% for p in students.paginator.page_range %}
-			<li {% if students.number == p %} class="active" {% endif %}>
-			<a href="{% url 'home' %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">{{ p }}</a>
-			</li>
-			{% endfor %}
-			<li>
-			<a href="{% url 'home' %}?page={{ students.paginator.num_pages}}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&raquo;</a>
-			</li>
-		</ul>
-	</nav>
-	{% endwith %}
-	{% endif %}
-	{% endblock content %}
+
+{% with object_list=students %}
+	{% include "students/pagination.html" %}
+{% endwith %}
+
+{% endblock content %}
