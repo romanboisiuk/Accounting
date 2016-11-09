@@ -11,30 +11,7 @@ from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
 
 from ..models.groups import  Group
-
-def groups_list(request):
-	groups = Group.objects.all()
-
-	# try to order group list
-	order_by = request.GET.get('order_by', '')
-	if order_by in ('title', 'leader'):
-		groups = groups.order_by(order_by)
-		if request.GET.get('reverse', '') == '1':
-			groups = groups.reverse()
-
-	# paginate students
-	paginator = Paginator(groups, 3)		
-	page = request.GET.get('page')
-	try:
-		groups = paginator.page(page)
-	except PageNotAnInteger:
-		# if page is not an integer, deliver first page.
-		groups = paginator.page(1)	
-	except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-		groups = paginator.page(paginator.num_pages)		
-
-	return render(request, 'students/groups_list.html', {'groups': groups})
+from ..util import paginate, get_current_group
 
 class GroupForm(ModelForm):
     class Meta:
@@ -98,7 +75,7 @@ class GroupAddView(CreateView):
 class GroupUpdateView(UpdateView):
     model = Group
     form_class = GroupForm
-    template_name = 'students/groups_form.html'
+    template_name = 'students/groups_form_edit.html'
 
     def get_success_url(self):
         return u'%s?status_message=Групу успішно збережено!' % reverse('home')
@@ -116,3 +93,22 @@ class GroupDeleteView(DeleteView):
 
     def get_success_url(self):
         return u'%s?status_message=Групу успішно видалено!' % reverse('home')
+
+
+def groups_list(request):
+    current_group = get_current_group(request)
+    if current_group:
+        groups = Group.objects.filter(id=current_group.id)
+    else:    
+        groups = Group.objects.all()
+
+    # try to order group list
+    order_by = request.GET.get('order_by', '')
+    if order_by in ('title', 'leader'):
+        groups = groups.order_by(order_by)
+        if request.GET.get('reverse', '') == '1':
+            groups = groups.reverse()
+
+    context = paginate(groups, 3, request, {}, var_name='groups')  
+
+    return render(request, 'students/groups_list.html', context)
