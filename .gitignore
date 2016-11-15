@@ -20,3 +20,4 @@ password.txt
 *.mo
 *.egg
 db.py
+studentsdb.log
