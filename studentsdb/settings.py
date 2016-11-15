@@ -18,11 +18,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-ADMIN_EMAIL = 'noisia91@gmail.com'
-EMAIL_HOST = 'smtp-pulse.com'
-EMAIL_PORT = 465
+ADMIN_EMAIL = 'roman.boisiuk@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '465'
 EMAIL_HOST_USER = 'noisia91@gmail.com'
-EMAIL_HOST_PASSWORD = 'romkodnb'
+EMAIL_HOST_PASSWORD = 'ramondj1608'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
@@ -98,14 +98,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'uk'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -118,9 +118,59 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/'                                                                                                                                                                                                                                                                                         
 
 MEDIA_URL = '/media/' 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 
+LOG_FILE = os.path.join(BASE_DIR, 'studentsdb.log')                                                         
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s %(module)s: %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': LOG_FILE
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'students.signals': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+        },
+        'students.views.contact_admin': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+        }
+    }
+}
