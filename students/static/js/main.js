@@ -62,7 +62,7 @@ function initDateFields() {
 
 function initAddStudentPage() {
 	var indicator_2 = $('#ajax-loader').html('<img id="loader-img" \\\n\
-	src="/static/img/loader.gif"  width="170" height="70" />');
+	src="/static/img/loader.gif"  width="200" height="60" />');
 	$('a#add_student').click(function(event){
 		var link = $(this);
 		$.ajax({
@@ -107,7 +107,7 @@ function initAddStudentPage() {
 
 function initEditStudentPage() {
 	var indicator_3 = $('#ajax-loader').html('<img id="loader-img" \\\n\
- 	src="/static/img/loader.gif"  width="170" height="70" />');
+ 	src="/static/img/loader.gif"  width="200" height="60" />');
 	$('a.student-edit-form-link').click(function(event){
 		var link = $(this);
 		$.ajax({
@@ -171,7 +171,7 @@ function initAddStudentForm(form, modal) {
 		},
 		'beforeSend': function(xhr, settings){
 			$('.form-horizontal').html('<img id="loader-img" \\\n\
-				src="/static/img/loader.gif"  width="170" height="70" /> ');
+				src="/static/img/loader.gif"  width="200" height="60" /> ');
 		},
 		'success': function(data, status, xhr) {
 			var html = $(data), newform = html.find('#content-column form');
@@ -215,7 +215,7 @@ function initEditStudentForm(form, modal) {
 		},
 		'beforeSend': function(xhr, settings){
 			$('.form-horizontal').html('<img id="loader-img" \\\n\
-			src="/static/img/loader.gif"  width="170" height="70" />');
+			src="/static/img/loader.gif"  width="200" height="60" />');
 		},
 		'success': function(data, status, xhr) {
 			var html = $(data), newform = html.find('#content-column form');
@@ -230,10 +230,7 @@ function initEditStudentForm(form, modal) {
 				// initialize form fields and buttons
 				initEditStudentForm(newform, modal);
 			} else {
-				// if no form, it means success and we need to reload page
-				// to get updated students list;
-				// reload after 2 seconds, so that user can read
-				// success message
+
 				setTimeout(function(){location.reload(true);}, 500);
 			}
 		}
@@ -242,7 +239,7 @@ function initEditStudentForm(form, modal) {
 
 function initAddGroupPage() {
 	var indicator_4 = $('#ajax-loader').html('<img id="loader-img" \\\n\
- 	src="/static/img/loader.gif"  width="170" height="70" />');
+ 	src="/static/img/loader.gif"  width="200" height="00" />');
 	
 	$('a#add_group').click(function(event){
 		var link = $(this);
@@ -288,7 +285,7 @@ function initAddGroupPage() {
 
 function initEditGroupPage() {
 	var indicator_5 = $('#ajax-loader').html('<img id="loader-img" \\\n\
- 	src="/static/img/loader.gif"  width="170" height="70" />');
+ 	src="/static/img/loader.gif"  width="200" height="60" />');
 	
 	$('a.group-edit-form-link').click(function(event){
 		var link = $(this);
@@ -350,7 +347,7 @@ function initAddGroupForm(form, modal) {
 		},
 		'beforeSend': function(xhr, settings){
 			$('.form-horizontal').html('<img id="loader-img" \\\n\
-			src="/static/img/loader.gif"  width="170" height="70" />');
+			src="/static/img/loader.gif"  width="200" height="60" />');
 		},
 		'success': function(data, status, xhr) {
 			var html = $(data), newform = html.find('#content-column form');
@@ -389,7 +386,7 @@ function initEditGroupForm(form, modal) {
 		},
 		'beforeSend': function(xhr, settings){
 			$('.form-horizontal').html('<img id="loader-img" \\\n\
-			src="/static/img/loader.gif"  width="170" height="70" />');
+			src="/static/img/loader.gif"  width="200" height="60" />');
 		},
 		'success': function(data, status, xhr) {
 			var html = $(data), newform = html.find('#content-column form');
