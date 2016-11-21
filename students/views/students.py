@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from datetime import datetime
 
 from ..models.students import Student
@@ -16,6 +15,7 @@ from crispy_forms.bootstrap import FormActions
 from django.forms import ModelForm
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from ..util import paginate, get_current_group
+
 
 class StudentForm(ModelForm):
 	class Meta:
@@ -123,7 +123,7 @@ def students_list(request):
 	context = paginate(students, 3, request, {}, var_name='students')		
 			
 	return render(request, 'students/students_list.html', context)
-
+'''
 def students_add(request):
 	# was form posted?
 		if request.method == "POST":
@@ -203,4 +203,4 @@ def students_add(request):
 				# initial form render
 				return render(request, 'students/students_add.html', 
 					{'groups': Group.objects.all().order_by('title')})
-
+'''
