@@ -1,9 +1,11 @@
-from django.conf.urls import  url
+from django.conf.urls import  url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from views import journal, groups, contact_admin, students
 from views.students import StudentUpdateView, StudentDeleteView, StudentAddView
 from views.groups import GroupDeleteView, GroupUpdateView, GroupAddView
 from views.journal import JournalView
+from django.views.generic.base import RedirectView, TemplateView
 
 urlpatterns = [ 
 	# Students urls
@@ -23,5 +25,13 @@ urlpatterns = [
 
      # Contact Admin Form
     url(r'^contact_admin/$', contact_admin.contact_admin, name='contact_admin'),
+
+    # Users urls
+    #url(r'^users/logout/$', auth_views.logout, kwargs={'next_page': 'home'}, 
+     # name='auth_logout'),
+    #url(r'^register/complete/$', RedirectView.as_view(pattern_name='home'), 
+     # name='registration_complete'),
+
+    url(r'^users/', include('registration.backends.simple.urls')),
 ]
 
