@@ -5,6 +5,6 @@ Changelog
 --------------------
 
 * Login bug fixed.
-  [git username]
+  [romanboisiuk]
 
 * Initial functionality in place.
