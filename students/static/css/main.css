@@ -22,6 +22,12 @@ font-weight: bold;
 	line-height: 30px;
 	color: #555555;
 }
+
+/* User Toolbar */
+#user-toolbar{
+	margin-top: 35px;
+	text-align: right;
+}
 /* Form Styles */
 textarea,
 select,
