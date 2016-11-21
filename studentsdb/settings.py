@@ -1,30 +1,23 @@
 from django.conf import global_settings
 
+from env_settings import SECRET_KEY, ALLOWED_HOSTS, DEBUG
+from env_settings import ADMIN_EMAIL, EMAIL_HOST, EMAIL_PORT, EMAIL_USE_SSL
+from env_settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_USE_TLS
+from env_settings import DATABASES, PORTAL_URL, STATIC_URL, MEDIA_ROOT
+from env_settings import MEDIA_URL
+
+try:
+    from env_settings import STATIC_ROOT
+except ImportError: 
+    pass
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-PORTAL_URL = 'http://localhost:8000'
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2=))o77g%38zvwb3uvm!bd^%=wx)sij61qo2_9ix*0hmtf=+=6'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-ADMIN_EMAIL = 'roman.boisiuk@gmail.com'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '465'
-EMAIL_HOST_USER = 'noisia91@gmail.com'
-EMAIL_HOST_PASSWORD = 'ramondj1608'
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
 
 # django-registration app: users can register
 REGISTRATION_OPEN = True
@@ -78,12 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'studentsdb.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-from db import DATABASES
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -117,15 +104,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_URL = '/static/'                                                                                                                                                                                                                                                                                         
-
-MEDIA_URL = '/media/' 
-
-MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 
 LOG_FILE = os.path.join(BASE_DIR, 'studentsdb.log')                                                         
 
