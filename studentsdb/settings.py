@@ -26,6 +26,8 @@ EMAIL_HOST_PASSWORD = 'ramondj1608'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
+# django-registration app: users can register
+REGISTRATION_OPEN = True
 
 # Application definition
 
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'registration',
     'students',
 ]
 
@@ -57,7 +60,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'studentsdb', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -99,6 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+LOGIN_REDIRECT_URL = 'home'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -116,7 +120,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
 
 STATIC_URL = '/static/'                                                                                                                                                                                                                                                                                         
 
